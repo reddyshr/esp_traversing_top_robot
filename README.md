@@ -1,2 +1,2 @@
-# esp_traversing_top_robot
-ESP 32 Codebase for Traversing Top Project
+# esp_rosserial
+Rosserial Implementation and Testing for ESP 32

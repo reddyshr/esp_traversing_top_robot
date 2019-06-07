@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+
+set(COMPONENT_SRCS "src/traversing_top_robot_main.cpp" "src/global_robot_configuration.cpp" "src/ros_subscriber.cpp")
+set(COMPONENT_ADD_INCLUDEDIRS "include")
+
+register_component()
