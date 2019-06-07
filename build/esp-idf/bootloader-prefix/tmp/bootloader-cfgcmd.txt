@@ -1,0 +1,1 @@
+cmd='/usr/bin/cmake;-DSDKCONFIG=/home/reddyshr/esp/esp_traversing_top_robot/sdkconfig;-DIDF_PATH=/home/reddyshr/esp/esp-idf;-DSECURE_BOOT_SIGNING_KEY=/home/reddyshr/esp/esp_traversing_top_robot;-GUnix Makefiles;<SOURCE_DIR><SOURCE_SUBDIR>'

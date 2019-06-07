@@ -2,6 +2,11 @@
 
 // CONSIDER ADDING MUTEX/SEMAPHORE LOCKS
 
+//ESP to IQ Motor UART Communication Object
+
+EspIQCommunication esp_iq_com = EspIQCommunication();
+GenericInterface com;
+
 
 //Position and Orientation of Robot Body Frame wrt Vicon World Frame
 static std::array<double, 3> position = {0.0, 0.0, 0.0};

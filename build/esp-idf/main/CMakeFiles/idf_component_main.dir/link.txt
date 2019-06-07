@@ -1,0 +1,2 @@
+/home/reddyshr/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libmain.a  CMakeFiles/idf_component_main.dir/src/traversing_top_robot_main.cpp.obj CMakeFiles/idf_component_main.dir/src/global_robot_configuration.cpp.obj CMakeFiles/idf_component_main.dir/src/ros_subscriber.cpp.obj
+/home/reddyshr/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libmain.a

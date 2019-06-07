@@ -1,0 +1,2 @@
+/home/reddyshr/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libiq_motor_lib.a  CMakeFiles/idf_component_iq_motor_lib.dir/src/byte_queue.c.obj CMakeFiles/idf_component_iq_motor_lib.dir/src/crc_helper.c.obj CMakeFiles/idf_component_iq_motor_lib.dir/src/generic_interface.cpp.obj CMakeFiles/idf_component_iq_motor_lib.dir/src/packet_finder.c.obj CMakeFiles/idf_component_iq_motor_lib.dir/src/client_communication.cpp.obj
+/home/reddyshr/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libiq_motor_lib.a
