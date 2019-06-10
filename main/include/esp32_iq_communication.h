@@ -7,14 +7,13 @@
 #include "propeller_motor_control_client.hpp"
 #include "brushless_drive_client.hpp"
 
-#define ESP32_IQ_UART_PORT_NUM UART_NUM_2
+#define ESP32_IQ_UART_PORT_NUM UART_NUM_1
 #define ESP32_IQ_TX 4
 #define ESP32_IQ_RX 2
 #define ESP32_IQ_RTS 18
 #define ESP32_IQ_CTS 19
 
 class EspIQCommunication {
-
 	private:
 
 		//UART Port Parameters and Configuration
@@ -41,7 +40,7 @@ class EspIQCommunication {
 
 		void init() {
 
-			uart_buffer_size = (1024 * 2);
+			uart_buffer_size = (1024 * 4);
 
 		    uart_config_t uart_config = {
 		        .baud_rate = 115200,
@@ -60,7 +59,7 @@ class EspIQCommunication {
 
 		    // Install UART driver using an event queue here
 		    ESP_ERROR_CHECK(uart_driver_install(uart_num, uart_buffer_size, \
-                                            uart_buffer_size, 10, &uart_queue, 0));
+                                            uart_buffer_size, 20, &uart_queue, 0));
 		}
 
 		uart_port_t getUartPortNum() {

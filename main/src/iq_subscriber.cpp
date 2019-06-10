@@ -3,23 +3,41 @@
 #include <generic_interface.hpp>
 #include <brushless_drive_client.hpp>
 
-void receiveIQMessages(BrushlessDriveClient &mot) {
+int receiveIQMessages(BrushlessDriveClient &mot) {
 	
+	const uart_port_t iq_uart_num = esp_iq_com.getUartPortNum();
+
+	//note: communication_buffer and communication_length get reused in the function
 	uint8_t communication_buffer[64];
-	uint32_t communication_length = 64;
+	uint8_t communication_length;
 
-	size_t available_data;
+	//SEND GET DATA REQUEST TO ESP 
 
-	uart_get_buffered_data_len(esp_iq_com.getUartPortNum(), &available_data);
+	mot.obs_angle_.get(com);
+	mot.obs_velocity_.get(com);
 
-	if (available_data < 64) {
-		communication_length = static_cast<uint8_t> available_data;
+	if (com.GetTxBytes(communication_buffer, communication_length)) {
+		if (uart_write_bytes(iq_uart_num, (const char*)communication_buffer, communication_length) == -1) {
+
+			printf("error in sending velocity message over UART\n");
+			return -1;
+		}
+	} else {
+		//Error Handling
+		printf("error in getting TX bytes from com\n");
+		return -2;
 	}
 
-	int read_val = uart_read_bytes(esp_iq_com.getUartPortNum(), communication_buffer, communication_length, 100);
+	//DETERMINE HOW MANY BYTES HAVE BEEN RECEIVED FROM ESP
+	size_t num_of_rec_bytes;;
+	uart_get_buffered_data_len(iq_uart_num, &num_of_rec_bytes);
+	communication_length = static_cast<uint8_t> (num_of_rec_bytes);
 
-	if (read_val == -1) {
+	//READ AND PARSE RECEIVED BYTES
+
+	if (uart_read_bytes(iq_uart_num, communication_buffer, communication_length, 1000) == -1) {
 		printf("error in receiveIQMessages\n");
+		return -3;
 	} 
 
 	com.SetRxBytes(communication_buffer,communication_length);
@@ -29,10 +47,12 @@ void receiveIQMessages(BrushlessDriveClient &mot) {
 	// while we have message packets to parse
 	while(com.PeekPacket(&rx_data,&rx_length)) {
 		// Share that packet with all client objects
-		mot.ReadMsg(com,rx_data,rx_length);
+		mot.ReadMsg(rx_data,rx_length);
 		// Once were done with the message packet, drop it
 		com.DropPacket();
 	}
+
+	return 0;
 
 
 }
@@ -44,21 +64,34 @@ void storeIQData(BrushlessDriveClient &mot) {
 		setDPAngle(ang);
 	}
 
-	if (mot.obs_angle_.IsFresh()) {
+	if (mot.obs_velocity_.IsFresh()) {
 		double ang_vel = mot.obs_velocity_.get_reply();
 		setDPAngularVelocity(ang_vel);
-	}
+	}	
 
+}
+
+void displayIQData() {
+
+	double ang;
+	double ang_vel;
+
+	getDPAngle(ang);
+	getDPAngularVelocity(ang_vel);
+
+	printf("Angle: %f\n", ang);
+	printf("Angular Velocity: %f\n", ang_vel);
 }
 
 
 void vIQSubscriberTask(void* param) {
 
-	BrushlessDriveClient mot(1);
+	BrushlessDriveClient mot(0);
 
 	while(1) {
 		receiveIQMessages(mot);
 		storeIQData(mot);
+		displayIQData();
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 
