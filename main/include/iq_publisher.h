@@ -7,6 +7,9 @@
 #include "global_robot_configuration.h"
 #include "esp32_iq_communication.h"
 
+extern EspIQCommunication esp_iq_com;
+extern GenericInterface com;
+
 int sendIQMessages();
 int sendVelocityCommand(PropellerMotorControlClient &prop);
 int sendVoltageSuperpositionCommand(VoltageSuperPositionClient &vsp);

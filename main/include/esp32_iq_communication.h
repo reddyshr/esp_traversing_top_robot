@@ -6,6 +6,7 @@
 #include "generic_interface.hpp"
 #include "propeller_motor_control_client.hpp"
 #include "brushless_drive_client.hpp"
+#include "voltage_superposition_client.hpp"
 
 #define ESP32_IQ_UART_PORT_NUM UART_NUM_1
 #define ESP32_IQ_TX 4

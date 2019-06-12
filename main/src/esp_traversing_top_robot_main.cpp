@@ -24,12 +24,13 @@ extern "C" void app_main()
 	static uint8_t ucParameterToPass;
 	TaskHandle_t xHandle = NULL;
 
-	//xTaskCreate( vRosSubscriberTask, "ROS_SUBSCRIBER", ROS_SUBSCRIBER_STACK_SIZE, &ucParameterToPass, tskIDLE_PRIORITY, &xHandle ); 
+	xTaskCreate( vRosSubscriberTask, "ROS_SUBSCRIBER", ROS_SUBSCRIBER_STACK_SIZE, &ucParameterToPass, tskIDLE_PRIORITY, &xHandle ); 
 
 	xTaskCreate( vIQSubscriberTask, "IQ_SUBSCRIBER", IQ_SUBSCRIBER_STACK_SIZE, &ucParameterToPass, tskIDLE_PRIORITY, &xHandle ); 
 
 	while (1) {
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		displayRobotConfiguration();
 	}
 	
 

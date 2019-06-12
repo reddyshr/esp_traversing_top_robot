@@ -60,24 +60,24 @@ int receiveIQMessages(BrushlessDriveClient &mot) {
 void storeIQData(BrushlessDriveClient &mot) {
 
 	if (mot.obs_angle_.IsFresh()) {
-		double ang = mot.obs_angle_.get_reply();
-		setDPAngle(ang);
+		float ang = mot.obs_angle_.get_reply();
+		setIQAngle(ang);
 	}
 
 	if (mot.obs_velocity_.IsFresh()) {
-		double ang_vel = mot.obs_velocity_.get_reply();
-		setDPAngularVelocity(ang_vel);
+		float ang_vel = mot.obs_velocity_.get_reply();
+		setIQAngularVelocity(ang_vel);
 	}	
 
 }
 
 void displayIQData() {
 
-	double ang;
-	double ang_vel;
+	float ang;
+	float ang_vel;
 
-	getDPAngle(ang);
-	getDPAngularVelocity(ang_vel);
+	getIQAngle(ang);
+	getIQAngularVelocity(ang_vel);
 
 	printf("Angle: %f\n", ang);
 	printf("Angular Velocity: %f\n", ang_vel);
@@ -91,7 +91,7 @@ void vIQSubscriberTask(void* param) {
 	while(1) {
 		receiveIQMessages(mot);
 		storeIQData(mot);
-		displayIQData();
+		//displayIQData();
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 

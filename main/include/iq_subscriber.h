@@ -7,13 +7,6 @@
 #include "global_robot_configuration.h"
 #include "esp32_iq_communication.h"
 
-
-#define ESP32_IQ_UART_PORT_NUM UART_NUM_2
-#define ESP32_IQ_TX 16
-#define ESP32_IQ_RX 17
-#define ESP32_IQ_RTS 18
-#define ESP32_IQ_CTS 19
-
 extern EspIQCommunication esp_iq_com;
 extern GenericInterface com;
 

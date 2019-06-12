@@ -16,7 +16,6 @@ void viconCallback( const geometry_msgs::TransformStamped& msg){
 
   setPosition(newPos);
   setOrientation(newOri);
-  printf("xpos: %f\n", newPos[0]);
 
 }
 

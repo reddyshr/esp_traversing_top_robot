@@ -13,11 +13,20 @@ void setPosition(const std::array<double, 3> &pos);
 void getOrientation(std::array<double,4> &ori);
 void setOrientation(const std::array<double,4> &ori);
 
-void getDPAngle(double &ang);
-void setDPAngle(double &ang);
+void getIQAngle(float &ang);
+void setIQAngle(float &ang);
 
-void getDPAngularVelocity(double &ang_vel);
-void setDPAngularVelocity(double &ang_vel);
+void getIQAngularVelocity(float &ang_vel);
+void setIQAngularVelocity(float &ang_vel);
+
+void getIQAngularVelocityCmd(float &ang_vel_cmd);
+void setIQAngularVelocityCmd(float &ang_vel_cmd);
+void getIQPhaseCmd(float &phase_cmd);
+void setIQPhaseCmd(float &phase_cmd);
+void getIQAmplitudeCmd(float &amp_cmd);
+void setIQAmplitudeCmd(float &amp_cmd);
+
+void displayRobotConfiguration();
 
 
 #endif
