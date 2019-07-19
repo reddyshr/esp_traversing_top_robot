@@ -2,8 +2,14 @@
 
 void viconCallback( const geometry_msgs::TransformStamped& msg){
 
+  double start = 0.0;
+  double end = 0.0;
+
+  timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &start);
+
   std::array<double, 3> newPos = {0.0, 0.0, 0.0};
   std::array<double, 4> newOri = {0.0, 0.0, 0.0, 0.0};
+
 
   newPos[0] = msg.transform.translation.x;
   newPos[1] = msg.transform.translation.y;
@@ -12,11 +18,15 @@ void viconCallback( const geometry_msgs::TransformStamped& msg){
   newOri[0] = msg.transform.rotation.x;
   newOri[1] = msg.transform.rotation.y;
   newOri[2] = msg.transform.rotation.x;
-  newOri[3] = msg.transform.rotation.y;
+  newOri[3] = msg.transform.rotation.w;
 
   setPosition(newPos);
   setOrientation(newOri);
 
+  timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &end);
+
+  //printf("SUB TIME: start: %f, end: %f\n", start, end);
+  printf("w: %f\n", newOri[3]);
 }
 
 void vRosSubscriberTask(void* param) {

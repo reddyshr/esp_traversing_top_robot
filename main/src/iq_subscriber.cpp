@@ -76,10 +76,10 @@ void displayIQData() {
 	float ang;
 	float ang_vel;
 
-	getIQAngle(ang);
+	//getIQAngle(ang);
 	getIQAngularVelocity(ang_vel);
 
-	printf("Angle: %f\n", ang);
+	//printf("Angle: %f\n", ang);
 	printf("Angular Velocity: %f\n", ang_vel);
 }
 
@@ -88,11 +88,25 @@ void vIQSubscriberTask(void* param) {
 
 	BrushlessDriveClient mot(0);
 
+	double start = 0.0;
+	double end = 0.0;
+
+
 	while(1) {
+
+		timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &start);
+
 		receiveIQMessages(mot);
 		storeIQData(mot);
+
+		//printf("here 1\n");
+
+		timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &end);
+
+		printf("SUBSCRIBER RUNTIME: Start: %f End: %f \n", start, end);
+
 		//displayIQData();
-		vTaskDelay(100 / portTICK_PERIOD_MS);
+		vTaskDelay(10 / portTICK_PERIOD_MS);
 	}
 
 

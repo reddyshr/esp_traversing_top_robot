@@ -6,7 +6,7 @@
 
 namespace ros {
 
-	typedef ros::NodeHandle_<Esp32Hardware> NodeHandle;
+	typedef ros::NodeHandle_<Esp32Hardware, 25, 25, 100, 100 > NodeHandle;
 }
 
 

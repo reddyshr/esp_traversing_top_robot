@@ -82,7 +82,7 @@ void setIQAmplitudeCmd(float &amp_cmd) {
 }
 
 void displayRobotConfiguration() {
-	printf("--POSITION--\n");
+	/*printf("--POSITION--\n");
 	printf("X: %f\n", position[0]);
 	printf("Y: %f\n", position[1]);
 	printf("Z: %f\n", position[2]);
@@ -91,7 +91,7 @@ void displayRobotConfiguration() {
 	printf("Y: %f\n", orientation[1]);
 	printf("Z: %f\n", orientation[2]);
 	printf("W: %f\n", orientation[3]);
-	printf("--IQ MOTOR STATE--\n");
+	printf("--IQ MOTOR STATE--\n");*/
 	printf("Angle: %f\n", iq_angle);
-	printf("Angular Velocity: %f\n", iq_angular_velocity);
+	printf("Angular Velocity Cmd: %f\n", iq_angular_velocity_cmd);
 }

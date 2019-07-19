@@ -54,10 +54,22 @@ void vIQPublisherTask(void* param) {
 	PropellerMotorControlClient prop(0);
 	VoltageSuperPositionClient vsp(0);
 
+	double start = 0.0;
+	double end = 0.0;
+
 	while(1) {
+
+		timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &start);
+
 		sendVelocityCommand(prop);
-		sendVoltageSuperpositionCommand(vsp);
-		vTaskDelay(100 / portTICK_PERIOD_MS);
+	//	displayRobotConfiguration();
+		timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &end);
+
+		printf("PUBLISHER RUNTIME: Start: %f End: %f \n", start, end);
+
+
+		//sendVoltageSuperpositionCommand(vsp);
+		vTaskDelay(10 / portTICK_PERIOD_MS);
 	}
 
 }
