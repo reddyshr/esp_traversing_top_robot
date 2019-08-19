@@ -14,7 +14,7 @@ int receiveIQMessages(BrushlessDriveClient &mot) {
 	//SEND GET DATA REQUEST TO ESP 
 
 	mot.obs_angle_.get(com);
-	mot.obs_velocity_.get(com);
+	//mot.obs_velocity_.get(com);
 
 	if (com.GetTxBytes(communication_buffer, communication_length)) {
 		if (uart_write_bytes(iq_uart_num, (const char*)communication_buffer, communication_length) == -1) {
@@ -64,10 +64,10 @@ void storeIQData(BrushlessDriveClient &mot) {
 		setIQAngle(ang);
 	}
 
-	if (mot.obs_velocity_.IsFresh()) {
+	/*if (mot.obs_velocity_.IsFresh()) {
 		float ang_vel = mot.obs_velocity_.get_reply();
 		setIQAngularVelocity(ang_vel);
-	}	
+	}	*/
 
 }
 

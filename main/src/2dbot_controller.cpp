@@ -14,9 +14,12 @@ void calculatePhaseAmplitudeCmd(std::array<double, 4> &orientation, float desGlo
 
 	float yaw = calculateYawAngleFromQuaternion(orientation);
 
+	//printf("yaw: %f\n", yaw);
+
 	phaseCmd = (-PI/2.0) + (desGlobalForceDirection - yaw);
 
-	amplitudeCmd = 2.0;
+	//phaseCmd = 2.0;
+	amplitudeCmd = 0.45;
 
 
 }

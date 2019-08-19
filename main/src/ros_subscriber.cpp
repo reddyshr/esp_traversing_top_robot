@@ -1,15 +1,21 @@
 #include "ros_subscriber.h"
 
+int hz = 0;
+
+double start = 0.0;
+double end = 0.0;
+
+int first_seq = 0;
+int second_seq = 0;
+
+
+bool startSet = false;
+bool endSet = false;
+
+std::array<double, 3> newPos = {0.0, 0.0, 0.0};
+std::array<double, 4> newOri = {0.0, 0.0, 0.0, 0.0};
+
 void viconCallback( const geometry_msgs::TransformStamped& msg){
-
-  double start = 0.0;
-  double end = 0.0;
-
-  timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &start);
-
-  std::array<double, 3> newPos = {0.0, 0.0, 0.0};
-  std::array<double, 4> newOri = {0.0, 0.0, 0.0, 0.0};
-
 
   newPos[0] = msg.transform.translation.x;
   newPos[1] = msg.transform.translation.y;
@@ -17,16 +23,14 @@ void viconCallback( const geometry_msgs::TransformStamped& msg){
 
   newOri[0] = msg.transform.rotation.x;
   newOri[1] = msg.transform.rotation.y;
-  newOri[2] = msg.transform.rotation.x;
+  newOri[2] = msg.transform.rotation.z;
   newOri[3] = msg.transform.rotation.w;
 
   setPosition(newPos);
   setOrientation(newOri);
 
-  timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &end);
-
   //printf("SUB TIME: start: %f, end: %f\n", start, end);
-  printf("w: %f\n", newOri[3]);
+  //printf("seq: %d\n", msg.header.seq);
 }
 
 void vRosSubscriberTask(void* param) {
@@ -48,7 +52,7 @@ void vRosSubscriberTask(void* param) {
 	timer_init(timer_group_num, timer_num, &timer_config);
 
   ros::NodeHandle nh; 
-  ros::Subscriber<geometry_msgs::TransformStamped> sub("tt/pose", &viconCallback);
+  ros::Subscriber<geometry_msgs::TransformStamped> sub("vicon/tt_2d_rig/tt_2d_rig", &viconCallback);
  	nh.initNode();
  	nh.subscribe(sub);
 
