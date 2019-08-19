@@ -1,2 +1,1 @@
-# esp_rosserial
-Rosserial Implementation and Testing for ESP 32
+Onboard Software Implementation of the Traversing Top Robot on the ESP 32 Microcontroller Platform
