@@ -13,6 +13,8 @@ extern GenericInterface com;
 int sendIQMessages();
 int sendVelocityCommand(PropellerMotorControlClient &prop);
 int sendVoltageSuperpositionCommand(VoltageSuperPositionClient &vsp);
+int sendAngleCommand(MultiTurnAngleControlClient &acm, float angle_cmd);
+int sendVelocityCommand(MultiTurnAngleControlClient &acm, float ang_vel_cmd);
 void vIQPublisherTask(void* param);
 
 #endif

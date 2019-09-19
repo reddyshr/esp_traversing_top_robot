@@ -19,6 +19,7 @@
 #include <lwip/netdb.h>
 #include <netinet/in.h> 
 #include <errno.h>
+#include <sys/ioctl.h>
 
 #include "stdio.h"
 #include <string.h>
@@ -26,14 +27,8 @@
 #define WIFI_BASESTATION_SSID "reddyshr-N56JN"
 #define WIFI_BASESTATION_PASS "W0jZel8q"
 
-//#define WIFI_BASESTATION_SSID "TRENDnet639"
-//#define WIFI_BASESTATION_PASS ""
-
 #define PORT "8080"
 #define SERVER_IP_ADDR "10.42.0.1"
-//#define SERVER_IP_ADDR "192.168.10.100"
-
-
 
 static EventGroupHandle_t wifi_event_group;
 const int WIFI_CONNECTED_BIT = BIT0;

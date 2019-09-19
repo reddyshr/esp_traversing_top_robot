@@ -10,8 +10,7 @@
 #include "tcp_client.h"
 #include "iq_subscriber.h"
 #include "iq_publisher.h"
-#include "attitude_controller.h"
-#include "2dbot_controller.h"
+#include "driver/timer.h"
 
 #include "global_robot_configuration.h"
 #include <generic_interface.hpp>
@@ -21,12 +20,19 @@
 #define IQ_SUBSCRIBER_STACK_SIZE 6000
 #define IQ_PUBLISHER_STACK_SIZE 6000
 
+#define TIMER_DIVIDER         16  //  Hardware timer clock divider
+#define TIMER_SCALE           (TIMER_BASE_CLK / TIMER_DIVIDER)
+
+#define CONTROL_LOOP_HZ 100.0
 
 extern EspIQCommunication esp_iq_com;
 
 BrushlessDriveClient mot(0);
 PropellerMotorControlClient prop(0);
 VoltageSuperPositionClient vsp(0);
+MultiTurnAngleControlClient acm(0);
+
+bool send_msg = false;
 
 extern "C" void app_main()
 {
@@ -39,27 +45,46 @@ extern "C" void app_main()
 	}
 	ESP_ERROR_CHECK(ret);
 
-	int esp_socket = 0;
-	float control_input_arr[3]; //ang vel, phase, amp
-
+	float control_input_arr[0]; //ang vel, phase, amp
+	
+	//Initialize TCP Socket
+	int esp_socket;
 	init_sta_wifi();
 	vTaskDelay(5000 / portTICK_PERIOD_MS);
 	init_tcp_socket(esp_socket);
 
 	esp_iq_com.init();
 
+	timer_config_t config;
+	config.divider = TIMER_DIVIDER;
+	config.counter_dir = TIMER_COUNT_UP;
+
+	timer_idx_t timer_id = (timer_idx_t) 1;
+	timer_init(TIMER_GROUP_0, timer_id , &config);
+	timer_start(TIMER_GROUP_0, timer_id );
+
+	double time1 = 0.0;
+	double time2 = 0.0;
+	timer_get_counter_time_sec(TIMER_GROUP_0, timer_id , &time1);
+
+	uint32_t tx_fifo_byte_cnt {0};
+
+
 	while (1) {
 
-		receive_float_arr(esp_socket, control_input_arr, 3);
+		//timer_get_counter_time_sec(TIMER_GROUP_0, timer_id , &time1);
+		receive_float_arr(esp_socket, control_input_arr, 1);
+		//timer_get_counter_time_sec(TIMER_GROUP_0, timer_id , &time2);
+		//printf("freq: %f\n", 1.0 / (time2 - time1));
 
-		setIQAngularVelocityCmd(control_input_arr[0]);
-		setIQPhaseCmd(control_input_arr[1]);
-		setIQAmplitudeCmd(control_input_arr[2]);
+		if (UART1.status.txfifo_cnt == 0) {
+			sendVelocityCommand(acm, control_input_arr[0]);
+		} else {
+			printf("DON'T SEND MESSAGE\n");
+		}
 
-		sendVelocityCommand(prop);
-		sendVoltageSuperpositionCommand(vsp);
-
-		vTaskDelay(10 / portTICK_PERIOD_MS);
+		vTaskDelay((1000.0 / CONTROL_LOOP_HZ) / portTICK_PERIOD_MS);
+		
 	}
 
 }

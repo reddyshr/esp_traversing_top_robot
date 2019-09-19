@@ -1,8 +1,6 @@
 #ifndef GLOBAL_ROBOT_CONFIGURATION_H
 #define GLOBAL_ROBOT_CONFIGURATION_H
 
-//LOOK AT CPP FOR MORE INFO
-
 #include <vector>
 #include <array>
 #include "esp32_iq_communication.h"

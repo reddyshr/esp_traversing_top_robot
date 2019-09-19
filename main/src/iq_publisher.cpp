@@ -36,7 +36,7 @@ int sendVelocityCommand(PropellerMotorControlClient &prop) {
 }
 
 int sendVoltageSuperpositionCommand(VoltageSuperPositionClient &vsp) {
-	
+
 	float phase_cmd = 0.0;
 	float amp_cmd = 0.0;
 	getIQPhaseCmd(phase_cmd);
@@ -49,6 +49,22 @@ int sendVoltageSuperpositionCommand(VoltageSuperPositionClient &vsp) {
 
 }
 
+int sendAngleCommand(MultiTurnAngleControlClient &acm, float angle_cmd) {
+
+	acm.ctrl_angle_.set(com, angle_cmd);
+
+	return sendIQMessages();
+
+}
+
+int sendVelocityCommand(MultiTurnAngleControlClient &acm, float ang_vel_cmd) {
+	acm.ctrl_velocity_.set(com, ang_vel_cmd);
+	return sendIQMessages();
+
+}
+
+
+
 void vIQPublisherTask(void* param) {
 
 	PropellerMotorControlClient prop(0);
@@ -57,12 +73,12 @@ void vIQPublisherTask(void* param) {
 	double start = 0.0;
 	double end = 0.0;
 
-	while(1) {
+	while (1) {
 
 		timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &start);
 
 		sendVelocityCommand(prop);
-	//	displayRobotConfiguration();
+		//	displayRobotConfiguration();
 		timer_get_counter_time_sec(TIMER_GROUP_0, TIMER_0, &end);
 
 		printf("PUBLISHER RUNTIME: Start: %f End: %f \n", start, end);
