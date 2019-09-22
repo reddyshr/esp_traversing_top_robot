@@ -1,2 +1,7 @@
-# esp_rosserial
-Rosserial Implementation and Testing for ESP 32
+# Traversing Top ESP32 Software Implementation
+
+On-board ESP32 Software Stack:
+ - TCP/IP Socket Communication with basestation
+ - UART Communication with IQ Motion Control Modules
+
+ 
